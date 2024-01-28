@@ -1,0 +1,30 @@
+{
+  "name": "optitrack-ui-e2e",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "apps/optitrack-ui-e2e/src",
+  "targets": {
+    "e2e": {
+      "executor": "@nx/cypress:cypress",
+      "options": {
+        "cypressConfig": "apps/optitrack-ui-e2e/cypress.config.ts",
+        "testingType": "e2e",
+        "devServerTarget": "optitrack-ui:serve"
+      },
+      "configurations": {
+        "production": {
+          "devServerTarget": "optitrack-ui:serve:production"
+        },
+        "ci": {
+          "devServerTarget": "optitrack-ui:serve-static"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"]
+    }
+  },
+  "implicitDependencies": ["optitrack-ui"],
+  "tags": []
+}
