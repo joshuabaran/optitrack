@@ -1,14 +1,13 @@
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import styles from './app.module.css';
-
-import NxWelcome from './nx-welcome';
+import { Header } from './components/header'
+import { Dashboard } from './pages/dashboard'
 
 export function App() {
   return (
-    <div>
-      <NxWelcome title="optitrack-ui" />
+    <div className="flex flex-col">
+      <Header />
+      <Dashboard />
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
