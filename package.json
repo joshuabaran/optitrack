@@ -2,7 +2,10 @@
   "name": "@optitrack/source",
   "version": "0.0.0",
   "license": "MIT",
-  "scripts": {},
+  "scripts": {
+    "build:ui": "nx run optitrack-ui:build:production",
+    "test:ui": "nx run optitrack-ui:test"
+  },
   "private": true,
   "dependencies": {
     "@headlessui/react": "^1.7.18",
