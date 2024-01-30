@@ -33,15 +33,15 @@ const AssestListCard = (props: IAssestListCardProps) => {
   return (
     <Card className="m-2 hover:cursor-pointer hover:border-orange-600" decoration="left" decorationColor={selected ? "green": "blue"} onClick={(evt) => {setSelected(idx)}}>
       <Flex justifyContent="between" className="w-100">
-        <Flex>
+        <Flex flexDirection="col" alignItems="start" className="w-auto">
           <Title>{asset.name}</Title>
           <Text>{asset.symbol}</Text>
         </Flex>
-        <Flex>
+        <Flex className="w-auto">
           <Text>{asset.sector}</Text>
           <Text>{asset.percentage}</Text>
         </Flex>
-        <Flex>
+        <Flex className="w-auto">
           {(data && !isLoading) ? (<SparkAreaChart data={data?.results} categories={['c']} index="t" />) : (
             <Loading />
           )}
