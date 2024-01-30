@@ -13,9 +13,7 @@ import {
 import { getFund } from '../hooks'
 
 export const Dashboard = () => {
-  const { error, data: fundData, isLoading } = useQuery('overview', getFund)
-
-  console.log({ fundData, error, isLoading })
+  const { data: fundData, isLoading } = useQuery('overview', getFund)
 
   return (
     
@@ -25,7 +23,7 @@ export const Dashboard = () => {
             <Overview fund={fundData || null} />
           </Col>
           <Col numColSpan={1}>
-            <FundAssetList />
+            <FundAssetList assets={fundData?.assets || []} />
           </Col>
           <Col numColSpan={1} numColSpanMd={2}>
             <AssetPriceChart />
