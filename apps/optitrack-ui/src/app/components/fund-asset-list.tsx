@@ -5,7 +5,6 @@ import {
   Card,
   Text,
   Title,
-  Metric,
   Flex,
   SparkAreaChart
 } from '@tremor/react'
