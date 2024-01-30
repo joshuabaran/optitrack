@@ -18,7 +18,7 @@ const OfferingCard = (props: IOfferingCardProps) => {
   const { offering } = props
 
   return (
-    <Card className="m-4" decoration="left">
+    <Card className="m-2" decoration="left">
       <Flex justifyContent="start">
         <Flex flexDirection="col" alignItems="start">
           <Title>{offering.name}</Title>
@@ -43,7 +43,7 @@ interface IDistributionChartProps {
 const DistributionChart = (props: IDistributionChartProps) => {
   const { data, index, category } = props
   return (
-    <Card>
+    <Card className="mt-2">
       <Title>Distribution</Title>
       <DonutChart
         data={data}
