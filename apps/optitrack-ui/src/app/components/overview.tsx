@@ -27,6 +27,7 @@ const OfferingCard = (props: IOfferingCardProps) => {
         <Flex justifyContent="end">
           <Text>NAV</Text>
           <Metric className="mx-2">{`$${offering.nav}`}</Metric>
+          {/* TODO: fix badge */}
           <BadgeDelta size="xs">{`${offering.change}%`}</BadgeDelta>
         </Flex>
       </Flex>
@@ -71,7 +72,7 @@ export const Overview = (props: IOverviewProps) => {
       <Text>{fund?.turnOver}</Text>
       <Text>{fund?.totalAssets}</Text>
       <Flex flexDirection="col">
-        {fund?.offerings?.map((o) => <OfferingCard offering={o} />) || []}
+        {fund?.offerings?.map((o, idx) => <OfferingCard key={idx} offering={o} />) || []}
       </Flex>
       <DistributionChart data={fund?.assets || []} category="percentage" index="sector" />
     </Card>

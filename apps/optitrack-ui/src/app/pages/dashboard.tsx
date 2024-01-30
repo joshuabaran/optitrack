@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useMemo } from 'react'
 import { Grid, Col } from '@tremor/react'
 import { useQuery } from 'react-query'
 
@@ -10,20 +10,20 @@ import {
   MarketTrendsList,
   Loading
 } from '../components/'
-import { getFund } from '../hooks'
+import { getFund } from '../data'
 
 export const Dashboard = () => {
   const [selectedAsset, setSelectedAsset] = useState(0)
-  const { data: fundData, isLoading } = useQuery('overview', getFund)
+  const { data: fundData, isLoading: fundLoading } = useQuery('overview', getFund)
 
-  useEffect(() => {
-    console.log('selectedAsset', { selectedAsset })
-  }, [selectedAsset])
+  const selectedSymbol = useMemo(() => {
+    return fundData?.assets[selectedAsset].symbol || null
+  }, [selectedAsset, fundData])
 
   return (
     
       <Grid className="p-2 gap-2" numItems={1} numItemsMd={2}>
-        {isLoading ? (<Loading />) : (<>
+        {fundLoading ? (<Loading />) : (<>
           <Col numColSpan={1}>
             <Overview fund={fundData || null} />
           </Col>
@@ -31,10 +31,10 @@ export const Dashboard = () => {
             <FundAssetList assets={fundData?.assets || []} selected={selectedAsset} setSelected={setSelectedAsset} />
           </Col>
           <Col numColSpan={1} numColSpanMd={2}>
-            <AssetPriceChart />
+            <AssetPriceChart selectedSymbol={selectedSymbol} />
           </Col>
           <Col numColSpan={1}>
-            <AssetPriceList />
+            <AssetPriceList selectedSymbol={selectedSymbol} />
           </Col>
           <Col numColSpan={1}>
             <MarketTrendsList />

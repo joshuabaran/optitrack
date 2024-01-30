@@ -1,6 +1,10 @@
 import { Card, Text } from '@tremor/react'
 
-export const AssetPriceList = () => {
+export interface IAssetPriceListProps {
+  selectedSymbol: string | null
+}
+
+export const AssetPriceList = (props: IAssetPriceListProps) => {
   return (
     <Card>
       <Text>Asset Price List</Text>
