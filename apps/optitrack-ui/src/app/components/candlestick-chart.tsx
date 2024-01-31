@@ -50,12 +50,14 @@ export function CandlestickChart(props: ICandlestickChartProps) {
 
     const mainPanel = stockChart.panels.push(am5stock.StockPanel.new(chartRoot, {
       height: am5.percent(70),
+      wheelY: "zoomX",
       panX: true,
       panY: false,
     }))
     mainPanel.panelControls.closeButton.set('forceHidden', true)
 
     const volumePanel = stockChart.panels.push(am5stock.StockPanel.new(chartRoot, {
+      wheelY: "zoomX",
       panX: true,
       panY: false,
       height: am5.percent(30),
@@ -153,16 +155,17 @@ export function CandlestickChart(props: ICandlestickChartProps) {
       stockChart: stockChart
     }))
     valueLegend.settingsButtons.template.set('visible', false)
-    valueLegend.data.setAll([valueSeries])
+    
 
     const volumeLegend = volumePanel.plotContainer.children.push(am5stock.StockLegend.new(chartRoot, {
       stockChart: stockChart
     }))
     volumeLegend.settingsButtons.template.set('visible', false)
-    volumeLegend.data.setAll([volumeSeries])
 
     stockChart.set('stockSeries', valueSeries)
     stockChart.set('volumeSeries', volumeSeries)
+    valueLegend.data.setAll([valueSeries])
+    volumeLegend.data.setAll([volumeSeries])
     valueSeries.data.setAll(data?.results || [])
     volumeSeries.data.setAll(data?.results || [])
 
@@ -170,12 +173,12 @@ export function CandlestickChart(props: ICandlestickChartProps) {
       yAxis: valueAxis,
       xAxis: dateAxis,
       snapToSeries: [valueSeries],
-      snapToSeriesBy: 'y!'
+      snapToSeriesBy: "xy"
     }))
 
     const scrollbar = mainPanel.set('scrollbarX', am5xy.XYChartScrollbar.new(chartRoot, {
       orientation: 'horizontal',
-      height: 50
+      height: 40
     }));
     mainPanel.bottomAxesContainer.children.push(scrollbar);
 
