@@ -33,7 +33,7 @@ export const Dashboard = () => {
           <AssetPriceChart selectedSymbol={selectedSymbol} />
         </Col>
         <Col numColSpan={1}>
-          <AssetPriceList selectedSymbol={selectedSymbol} />
+          {selectedSymbol ? (<AssetPriceList selectedSymbol={selectedSymbol} />) : (null)}
         </Col>
         <Col numColSpan={1}>
           <MarketTrendsList />
