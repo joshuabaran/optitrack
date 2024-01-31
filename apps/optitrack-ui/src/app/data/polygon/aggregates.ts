@@ -32,7 +32,7 @@ export interface UsePolygonProps {
 export const getPolygonAggregates = async ({ symbol, multiplier, timespan, from, to }:UsePolygonProps ) => {
   const pKey = import.meta.env.VITE_POLYGON_KEY
   const aggregatesBaseURL = 'https://api.polygon.io/v2/aggs/ticker'
-  const res = await fetch(`${aggregatesBaseURL}/${symbol}/range/${multiplier}/${timespan}/${from}/${to}?sort=desc`, {
+  const res = await fetch(`${aggregatesBaseURL}/${symbol}/range/${multiplier}/${timespan}/${from}/${to}`, {
     headers: {
       'Authorization': `Bearer ${pKey}`,
       'Accept': 'application/json',
