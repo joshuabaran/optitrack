@@ -21,7 +21,7 @@ export const Dashboard = () => {
   }, [selectedAsset, data])
 
   return (
-    <Grid className="p-2 gap-2" numItems={1} numItemsMd={2}>
+    <Grid className="p-2 gap-2" numItems={1} numItemsLg={2}>
       {isLoading ? (<Loading />) : (<>
         <Col numColSpan={1}>
           <Overview fund={data || null} />
@@ -29,7 +29,7 @@ export const Dashboard = () => {
         <Col numColSpan={1}>
           <FundAssetList assets={data?.assets || []} selected={selectedAsset} setSelected={setSelectedAsset} />
         </Col>
-        <Col numColSpan={1} numColSpanMd={2}>
+        <Col numColSpan={1} numColSpanLg={2}>
           <AssetPriceChart selectedSymbol={selectedSymbol} />
         </Col>
         <Col numColSpan={1}>

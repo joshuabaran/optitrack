@@ -1,27 +1,34 @@
 import { useQuery } from 'react-query'
 import moment from 'moment'
+import { ChartPieIcon } from '@heroicons/react/24/solid'
 import {
   Card,
   Text,
   Title,
   Flex,
-  SparkAreaChart
+  SparkAreaChart,
+  Icon,
+  Badge
 } from '@tremor/react'
 
 import { Loading } from './loading'
 import { getPolygonAggregates } from '../data'
+import { getSectorMetaByKey } from '../util'
 import { IAsset } from '../../../data/fund'
 
-interface IAssestListCardProps {
+interface IAssetsListCardProps {
   asset: IAsset
   idx: number
   selected: boolean
   setSelected: (index: number) => void
 }
-const AssestListCard = (props: IAssestListCardProps) => {
+
+const AssetsListCard = (props: IAssetsListCardProps) => {
   const { asset, idx, selected, setSelected } = props
   const from = moment().subtract(15, 'days').format('YYYY-MM-DD')
   const to = moment().format('YYYY-MM-DD')
+  const sectorMeta = getSectorMetaByKey(asset.sector)
+
   const { data, isLoading } = useQuery({
     queryKey: `${asset.symbol}-spark`,
     queryFn: () => getPolygonAggregates({ symbol: asset.symbol, multiplier: 1, timespan: 'day', from, to }),
@@ -36,13 +43,9 @@ const AssestListCard = (props: IAssestListCardProps) => {
           <Text>{asset.symbol}</Text>
         </Flex>
         <Flex className="w-auto">
-          <Text>{asset.sector}</Text>
-          <Text>{asset.percentage}</Text>
-        </Flex>
-        <Flex className="w-auto">
-          {(data && !isLoading) ? (<SparkAreaChart data={data?.results} categories={['c']} index="t" />) : (
-            <Loading />
-          )}
+          <Badge icon={ChartPieIcon} className="mr-8">{asset.percentage}% of total</Badge>
+          <Icon icon={sectorMeta.Icon} variant="simple" tooltip={sectorMeta.name} color={sectorMeta.color} size="xl" className="mr-8" />
+          {(data && !isLoading) ? (<SparkAreaChart data={data.results} categories={['c']} index="t" />) : (<Loading />)}
         </Flex>
       </Flex>
     </Card>
@@ -60,9 +63,9 @@ export const FundAssetList = (props: IFundAssetListProps) => {
 
   return (
     <Card>
-      <Flex flexDirection="col" className="max-h-[548px] overflow-y-auto overflow-x-hidden p-4">
+      <Flex flexDirection="col" className="max-h-[520px] overflow-y-auto overflow-x-hidden p-4">
         {assets.map((asset, idx) => (
-          <AssestListCard key={idx} asset={asset} idx={idx} selected={(idx === selected)} setSelected={setSelected} />
+          <AssetsListCard key={idx} asset={asset} idx={idx} selected={(idx === selected)} setSelected={setSelected} />
         ))}
       </Flex>
     </Card>

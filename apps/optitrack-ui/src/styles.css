@@ -27,13 +27,13 @@
   }
   @media (prefers-color-scheme: dark) {
     ::-webkit-scrollbar-track {
-      background: #333;
+      background: #112;
     }
     ::-webkit-scrollbar-thumb {
-      background: #aaa;
+      background: #333;
     }
     ::-webkit-scrollbar-thumb:hover {
-      background: #ccc;
+      background: #aaa;
     }
   }
 };

@@ -11,6 +11,7 @@
     "@amcharts/amcharts5": "^5.7.7",
     "@headlessui/react": "^1.7.18",
     "@headlessui/tailwindcss": "^0.2.0",
+    "@heroicons/react": "^2.1.1",
     "@swc/helpers": "~0.5.2",
     "@tremor/react": "^3.13.3",
     "moment": "^2.30.1",

@@ -31,7 +31,7 @@ export function CandlestickChart(props: ICandlestickChartProps) {
 
   useLayoutEffect(() => {
     const chartRoot = am5.Root.new('stock-chart')
-    chartRoot.numberFormatter.set("numberFormat", "#,###.00")
+    chartRoot.numberFormatter.set('numberFormat', '#,###.00')
 
     const themes: am5.Theme[] = [
       am5themes_Animated.new(chartRoot)
@@ -50,21 +50,21 @@ export function CandlestickChart(props: ICandlestickChartProps) {
 
     const mainPanel = stockChart.panels.push(am5stock.StockPanel.new(chartRoot, {
       height: am5.percent(70),
-      wheelY: "zoomX",
+      wheelY: 'zoomX',
       panX: true,
       panY: true,
     }))
-    mainPanel.panelControls.closeButton.set("forceHidden", true)
+    mainPanel.panelControls.closeButton.set('forceHidden', true)
 
     const volumePanel = stockChart.panels.push(am5stock.StockPanel.new(chartRoot, {
-      wheelY: "zoomX",
+      wheelY: 'zoomX',
       panX: true,
       panY: false,
       height: am5.percent(30),
       paddingTop: 6,
       paddingBottom: 15
     }))
-    volumePanel.panelControls.closeButton.set("forceHidden", true)
+    volumePanel.panelControls.closeButton.set('forceHidden', true)
 
     const volumeDateAxis = volumePanel.xAxes.push(am5xy.GaplessDateAxis.new(chartRoot, {
       baseInterval: {
@@ -79,24 +79,24 @@ export function CandlestickChart(props: ICandlestickChartProps) {
       }),
       height: 0
     }))
-    volumeDateAxis.get("renderer").labels.template.set("forceHidden", true)
+    volumeDateAxis.get('renderer').labels.template.set('forceHidden', true)
 
     const volumeAxisRenderer = am5xy.AxisRendererY.new(chartRoot, {
-      pan: "zoom"
+      pan: 'zoom'
     });
     
     const volumeValueAxis = volumePanel.yAxes.push(am5xy.ValueAxis.new(chartRoot, {
-      numberFormat: "#.#a",
+      numberFormat: '#.#a',
       renderer: volumeAxisRenderer
     }))
 
     const valueAxis = mainPanel.yAxes.push(am5xy.ValueAxis.new(chartRoot, {
       renderer: am5xy.AxisRendererY.new(chartRoot, {
-        pan: "zoom"
+        pan: 'zoom'
       }),
       extraMin: 0.1, // adds some space for for main series
       tooltip: am5.Tooltip.new(chartRoot, {}),
-      numberFormat: "#,###.00",
+      numberFormat: '#,###.00',
       extraTooltipPrecision: 2
     }))
 
@@ -114,27 +114,27 @@ export function CandlestickChart(props: ICandlestickChartProps) {
     const valueSeries = mainPanel.series.push(am5xy.CandlestickSeries.new(chartRoot, {
       name: selectedSymbol,
       clustered: false,
-      valueXField: "t",
-      valueYField: "c",
-      highValueYField: "h",
-      lowValueYField: "l",
-      openValueYField: "o",
+      valueXField: 't',
+      valueYField: 'c',
+      highValueYField: 'h',
+      lowValueYField: 'l',
+      openValueYField: 'o',
       calculateAggregates: true,
       xAxis: dateAxis,
       yAxis: valueAxis,
-      legendValueText: "open: [bold]{openValueY}[/] high: [bold]{highValueY}[/] low: [bold]{lowValueY}[/] close: [bold]{valueY}[/]",
-      legendRangeValueText:"",
+      legendValueText: 'open: [bold]{openValueY}[/] high: [bold]{highValueY}[/] low: [bold]{lowValueY}[/] close: [bold]{valueY}[/]',
+      legendRangeValueText:'',
       snapTooltip: true
     }))
 
     const volumeSeries = volumePanel.series.push(am5xy.ColumnSeries.new(chartRoot, {
-      name: "Volume",
+      name: 'Volume',
       clustered: false,
-      valueXField: "t",
-      valueYField: "v",
+      valueXField: 't',
+      valueYField: 'v',
       xAxis: dateAxis,
       yAxis: volumeValueAxis,
-      legendValueText: "[bold]{valueY.formatNumber('#,###.0a')}[/]",
+      legendValueText: '[bold]{valueY.formatNumber("#,###.0a")}[/]',
       snapTooltip: true
     }))
 
@@ -154,33 +154,33 @@ export function CandlestickChart(props: ICandlestickChartProps) {
     const valueLegend = mainPanel.plotContainer.children.push(am5stock.StockLegend.new(chartRoot, {
       stockChart: stockChart
     }))
+    valueLegend.settingsButtons.template.set('visible', false)
+    valueLegend.data.setAll([valueSeries])
 
     const volumeLegend = volumePanel.plotContainer.children.push(am5stock.StockLegend.new(chartRoot, {
       stockChart: stockChart
     }))
-
-    stockChart.set("stockSeries", valueSeries)
-    stockChart.set("volumeSeries", volumeSeries)
-    valueLegend.data.setAll([valueSeries])
+    volumeLegend.settingsButtons.template.set('visible', false)
     volumeLegend.data.setAll([volumeSeries])
-    
 
+    stockChart.set('stockSeries', valueSeries)
+    stockChart.set('volumeSeries', volumeSeries)
     valueSeries.data.setAll(data?.results || [])
     volumeSeries.data.setAll(data?.results || [])
 
-    mainPanel.set("cursor", am5xy.XYCursor.new(chartRoot, {
+    mainPanel.set('cursor', am5xy.XYCursor.new(chartRoot, {
       yAxis: valueAxis,
       xAxis: dateAxis,
       snapToSeries: [valueSeries],
-      snapToSeriesBy: "y!"
+      snapToSeriesBy: 'y!'
     }))
 
-    const scrollbar = mainPanel.set("scrollbarX", am5xy.XYChartScrollbar.new(chartRoot, {
-      orientation: "horizontal",
+    const scrollbar = mainPanel.set('scrollbarX', am5xy.XYChartScrollbar.new(chartRoot, {
+      orientation: 'horizontal',
       height: 50
     }));
     mainPanel.bottomAxesContainer.children.push(scrollbar);
-    
+
     const sbDateAxis = scrollbar.chart.xAxes.push(am5xy.GaplessDateAxis.new(chartRoot, {
       baseInterval: {
         timeUnit: timespan,
@@ -190,25 +190,22 @@ export function CandlestickChart(props: ICandlestickChartProps) {
         minorGridEnabled: true
       })
     }))
-    
+
     const sbValueAxis = scrollbar.chart.yAxes.push(am5xy.ValueAxis.new(chartRoot, {
       renderer: am5xy.AxisRendererY.new(chartRoot, {})
     }))
-    
+
     const sbSeries = scrollbar.chart.series.push(am5xy.LineSeries.new(chartRoot, {
-      valueYField: "c",
-      valueXField: "t",
+      valueYField: 'c',
+      valueXField: 't',
       xAxis: sbDateAxis,
       yAxis: sbValueAxis
     }))
-    
     sbSeries.fills.template.setAll({
       visible: true,
       fillOpacity: 0.2
     })
-
     sbSeries.data.setAll(data?.results || [])
-
 
     return () => {
       chartRoot.dispose()
