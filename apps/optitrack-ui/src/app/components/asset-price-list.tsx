@@ -24,7 +24,7 @@ export const AssetPriceList = (props: IAssetPriceListProps) => {
   const timespan = 'day'
   const multiplier = 1
 
-  const { data, isLoading } = useQuery({
+  const { data } = useQuery({
     queryKey: `${selectedSymbol}-candlestick`,
     queryFn: () => getPolygonAggregates({ symbol: selectedSymbol, multiplier, timespan, from, to }),
     staleTime: 1000 * 60 * 60
@@ -32,7 +32,7 @@ export const AssetPriceList = (props: IAssetPriceListProps) => {
 
   return (
     <Card>
-      <Title>Asset Price History</Title>
+      <Title>{`Price History - ${selectedSymbol}`}</Title>
       <Table className="max-h-96 overflow-auto">
         <TableHead>
           <TableRow>

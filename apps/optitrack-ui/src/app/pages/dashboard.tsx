@@ -36,7 +36,7 @@ export const Dashboard = () => {
           {selectedSymbol ? (<AssetPriceList selectedSymbol={selectedSymbol} />) : (null)}
         </Col>
         <Col numColSpan={1}>
-          <MarketTrendsList />
+          <MarketTrendsList fund={data || null} />
         </Col>
       </>)}
     </Grid>

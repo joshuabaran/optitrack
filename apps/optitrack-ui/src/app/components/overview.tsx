@@ -1,17 +1,13 @@
-import { useMemo } from 'react'
 import {
   BadgeDelta,
   Card,
   Metric,
   Text,
   Title,
-  Flex,
-  DonutChart,
-  Icon,
-  Legend
+  Flex
 } from '@tremor/react'
 
-import { getSectorMetaByKey, getSectorMetaByName, getDeltaType } from '../util'
+import { getDeltaType } from '../util'
 import { IFund, IFundOffering } from '../../../data/fund'
 
 interface IOfferingCardProps {
@@ -40,56 +36,6 @@ const OfferingCard = (props: IOfferingCardProps) => {
   )
 }
 
-interface ISectorDistribution {
-  sector: string
-  percentage: number
-}
-
-interface IDistributionChartProps {
-  data: ISectorDistribution[]
-  index: string
-  category: string
-}
-
-const DistributionChart = (props: IDistributionChartProps) => {
-  const { data, index, category } = props
-  const sectorColors = useMemo(() => {
-    return data.map((item) => getSectorMetaByName(item.sector).color)
-  }, [data])
-  return (
-    <Card className="mt-1">
-      <DonutChart
-        data={data}
-        index={index}
-        category={category}
-        variant="pie"
-        showLabel={false}
-        colors={sectorColors}
-        customTooltip={({ payload, active }) => {
-          if (active && payload && payload.length) {
-            const categoryPayload = payload?.[0]
-            const sectorMeta = getSectorMetaByName(categoryPayload.name)
-
-            return (
-              <div className="flex items-center flex-row w-auto rounded-tremor-default bg-tremor-background p-2 shadow-tremor-dropdown border border-tremor-border dark:bg-dark-tremor-background">
-                <Icon icon={sectorMeta.Icon} variant="simple" tooltip={sectorMeta.name} color={categoryPayload.color} size="xl" className="mr-1" />
-                <Text className="mr-4">{categoryPayload.name}</Text>
-                <Metric>{categoryPayload.value.toFixed(1)}%</Metric>
-              </div>
-            )
-          }
-
-          return null
-        }}
-      />
-      <Legend
-        categories={data.map((item) => item.sector)}
-        colors={data.map((item) => getSectorMetaByName(item.sector).color)}
-       />
-    </Card>
-  )
-}
-
 export interface IOverviewProps {
   fund: IFund | null
 }
@@ -97,24 +43,6 @@ export interface IOverviewProps {
 export const Overview = (props: IOverviewProps) => {
   const { fund } = props
   const assetsFormatter = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', notation: 'compact', compactDisplay: 'short'})
-
-  const sectorDistribution: ISectorDistribution[] = useMemo(() => {
-    const acc: ISectorDistribution[] = []
-    fund?.assets.forEach((asset, idx) => {
-      const sectorMeta = getSectorMetaByKey(asset.sector)
-      const xi = acc.findIndex((item) => item.sector === sectorMeta.name)
-      if (xi > -1) {
-        acc[xi].percentage += asset.percentage
-      } else {
-        acc.push({
-          sector: sectorMeta.name,
-          percentage: asset.percentage
-        })
-      }
-    })
-
-    return acc
-  }, [fund])
 
   return (
     <Card>
@@ -135,7 +63,6 @@ export const Overview = (props: IOverviewProps) => {
         <Flex flexDirection="col">
           {fund?.offerings?.map((o, idx) => <OfferingCard key={idx} offering={o} />) || []}
         </Flex>
-        <DistributionChart data={sectorDistribution} category="percentage" index="sector" />
       </Flex>
     </Card>
   )
