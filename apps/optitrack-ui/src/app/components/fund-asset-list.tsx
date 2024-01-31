@@ -64,7 +64,7 @@ export const FundAssetList = (props: IFundAssetListProps) => {
 
   return (
     <Card>
-      <Flex flexDirection="col" className="max-h-[520px] overflow-y-auto overflow-x-hidden p-4">
+      <Flex flexDirection="col" className="max-h-[628px] overflow-y-auto overflow-x-hidden p-4">
         {assets.map((asset, idx) => (
           <AssetsListCard key={idx} asset={asset} idx={idx} selected={(idx === selected)} setSelected={setSelected} />
         ))}

@@ -4,11 +4,12 @@ import {
   Metric,
   Text,
   Title,
-  Flex
+  Flex,
+  LineChart
 } from '@tremor/react'
 
 import { getDeltaType } from '../util'
-import { IFund, IFundOffering } from '../../../data/fund'
+import { IFund, IFundOffering, lmnoAggData } from '../../../data/fund'
 
 interface IOfferingCardProps {
   offering: IFundOffering
@@ -43,6 +44,7 @@ export interface IOverviewProps {
 export const Overview = (props: IOverviewProps) => {
   const { fund } = props
   const assetsFormatter = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', notation: 'compact', compactDisplay: 'short'})
+  const valueFormatter = (number: number) => `$ ${new Intl.NumberFormat("us").format(number).toString()}`
 
   return (
     <Card>
@@ -63,6 +65,7 @@ export const Overview = (props: IOverviewProps) => {
         <Flex flexDirection="col">
           {fund?.offerings?.map((o, idx) => <OfferingCard key={idx} offering={o} />) || []}
         </Flex>
+        <LineChart data={lmnoAggData} categories={['LMNOA', 'LMNOB']} index="t" valueFormatter={valueFormatter} />
       </Flex>
     </Card>
   )

@@ -48,3 +48,24 @@ export const fundData: IFund = {
     { name: '3M Company', symbol: 'MMM', percentage: 3.6, sector: 'healthCare' }
   ]
 }
+
+interface IAggData {
+  LMNOA: number
+  LMNOB: number
+  t: string
+}
+
+export const lmnoAggData: IAggData[] = [
+  { LMNOA: 12.04, LMNOB: 12.14, t: '2024-01-31' },
+  { LMNOA: 11.89, LMNOB: 11.52, t: '2024-01-30' },
+  { LMNOA: 11.83, LMNOB: 11.93, t: '2024-01-29' },
+  { LMNOA: 12.26, LMNOB: 12.16, t: '2024-01-28' },
+  { LMNOA: 12.94, LMNOB: 12.14, t: '2024-01-27' },
+  { LMNOA: 12.24, LMNOB: 12.34, t: '2024-01-26' },
+  { LMNOA: 12.81, LMNOB: 12.21, t: '2024-01-25' },
+  { LMNOA: 14.22, LMNOB: 12.22, t: '2024-01-24' },
+  { LMNOA: 15.98, LMNOB: 10.98, t: '2024-01-23' },
+  { LMNOA: 11.54, LMNOB: 11.54, t: '2024-01-22' },
+  { LMNOA: 13.24, LMNOB: 12.14, t: '2024-01-21' },
+  { LMNOA: 12.74, LMNOB: 12.54, t: '2024-01-20' }
+]
