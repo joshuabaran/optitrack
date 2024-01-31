@@ -8,6 +8,7 @@ import {
   Flex,
   SparkAreaChart,
   Icon,
+  IconProps,
   Badge
 } from '@tremor/react'
 
@@ -44,7 +45,7 @@ const AssetsListCard = (props: IAssetsListCardProps) => {
         </Flex>
         <Flex className="w-auto">
           <Badge icon={ChartPieIcon} className="mr-8">{asset.percentage}% of total</Badge>
-          <Icon icon={sectorMeta.Icon} variant="simple" tooltip={sectorMeta.name} color={sectorMeta.color} size="xl" className="mr-8" />
+          <Icon icon={sectorMeta.Icon} variant="simple" tooltip={sectorMeta.name} color={sectorMeta.color as IconProps["color"]} size="xl" className="mr-8" />
           {(data && !isLoading) ? (<SparkAreaChart data={data.results} categories={['c']} index="t" />) : (<Loading />)}
         </Flex>
       </Flex>
