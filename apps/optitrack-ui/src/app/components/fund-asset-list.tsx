@@ -12,7 +12,6 @@ import { Loading } from './loading'
 import { getPolygonAggregates } from '../data'
 import { IAsset } from '../../../data/fund'
 
-
 interface IAssestListCardProps {
   asset: IAsset
   idx: number
@@ -23,7 +22,11 @@ const AssestListCard = (props: IAssestListCardProps) => {
   const { asset, idx, selected, setSelected } = props
   const from = moment().subtract(15, 'days').format('YYYY-MM-DD')
   const to = moment().format('YYYY-MM-DD')
-  const { data, isLoading } = useQuery(`${asset.symbol}-spark`, () => getPolygonAggregates({ symbol: asset.symbol, multiplier: 1, timespan: 'day', from, to }))
+  const { data, isLoading } = useQuery({
+    queryKey: `${asset.symbol}-spark`,
+    queryFn: () => getPolygonAggregates({ symbol: asset.symbol, multiplier: 1, timespan: 'day', from, to }),
+    staleTime: 1000 * 60 * 60
+  })
 
   return (
     <Card className="m-1 hover:cursor-pointer hover:border-orange-600" decoration="left" decorationColor={selected ? "green": "blue"} onClick={(evt) => {setSelected(idx)}}>

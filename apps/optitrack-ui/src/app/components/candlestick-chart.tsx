@@ -22,25 +22,21 @@ export function CandlestickChart(props: ICandlestickChartProps) {
   const timespan = 'day'
   const multiplier = 1
 
-  const { data, isLoading } = useQuery(`${selectedSymbol}-candlestick`, () => getPolygonAggregates({ symbol: selectedSymbol, multiplier, timespan, from, to }))
+  const { data, isLoading } = useQuery({
+    queryKey: `${selectedSymbol}-candlestick`,
+    queryFn: () => getPolygonAggregates({ symbol: selectedSymbol, multiplier, timespan, from, to }),
+    staleTime: 1000 * 60 * 60
+  })
   const dm = usePrefersDarkMode()
 
   useLayoutEffect(() => {
     const chartRoot = am5.Root.new('stock-chart')
     chartRoot.numberFormatter.set("numberFormat", "#,###.00")
 
-    // const customTheme = am5.Theme.new(chartRoot)
-    // customTheme.rule("Grid", ["scrollbar", "minor"]).setAll({
-    //   visible: false
-    // })
-
     const themes: am5.Theme[] = [
-      am5themes_Animated.new(chartRoot),
-      //customTheme
+      am5themes_Animated.new(chartRoot)
     ]
-
     dm && themes.push(am5themes_Dark.new(chartRoot))
-
     chartRoot.setThemes(themes)
 
     const stockChart = chartRoot.container.children.push(
@@ -217,7 +213,7 @@ export function CandlestickChart(props: ICandlestickChartProps) {
     return () => {
       chartRoot.dispose()
     }
-  }, [data, selectedSymbol])
+  }, [data, selectedSymbol, dm])
 
   return (
     <>
