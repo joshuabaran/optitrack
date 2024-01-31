@@ -7,10 +7,11 @@ import {
   Title,
   Flex,
   DonutChart,
-  Icon
+  Icon,
+  Legend
 } from '@tremor/react'
 
-import { getSectorMetaByKey, getSectorMetaByName } from '../util'
+import { getSectorMetaByKey, getSectorMetaByName, getDeltaType } from '../util'
 import { IFund, IFundOffering } from '../../../data/fund'
 
 interface IOfferingCardProps {
@@ -32,7 +33,7 @@ const OfferingCard = (props: IOfferingCardProps) => {
           <Text>NAV</Text>
           <Metric className="mx-2">{navFormatter.format(offering.nav)}</Metric>
           {/* TODO: fix badge */}
-          <BadgeDelta size="xs">{`${offering.change}%`}</BadgeDelta>
+          <BadgeDelta size="xs" deltaType={getDeltaType(offering.change)}>{`${offering.change}%`}</BadgeDelta>
         </Flex>
       </Flex>
     </Card>
@@ -52,6 +53,9 @@ interface IDistributionChartProps {
 
 const DistributionChart = (props: IDistributionChartProps) => {
   const { data, index, category } = props
+  const sectorColors = useMemo(() => {
+    return data.map((item) => getSectorMetaByName(item.sector).color)
+  }, [data])
   return (
     <Card className="mt-1">
       <DonutChart
@@ -60,6 +64,7 @@ const DistributionChart = (props: IDistributionChartProps) => {
         category={category}
         variant="pie"
         showLabel={false}
+        colors={sectorColors}
         customTooltip={({ payload, active }) => {
           if (active && payload && payload.length) {
             const categoryPayload = payload?.[0]
@@ -77,6 +82,10 @@ const DistributionChart = (props: IDistributionChartProps) => {
           return null
         }}
       />
+      <Legend
+        categories={data.map((item) => item.sector)}
+        colors={data.map((item) => getSectorMetaByName(item.sector).color)}
+       />
     </Card>
   )
 }

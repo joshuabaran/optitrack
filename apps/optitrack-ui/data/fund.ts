@@ -30,8 +30,8 @@ export const fundData: IFund = {
   turnOver: 102,
   totalAssets: 3400000,
   offerings: [
-    { name: 'Class A', symbol: 'LMNOA', nav: 12.04, change: -0.09, month: 4.6, quarter: 5.1, year: 5.3 },
-    { name: 'Class B', symbol: 'LMNOB', nav: 12.14, change: -0.07, month: 4.6, quarter: 5.1, year: 5.3 }
+    { name: 'Class A', symbol: 'LMNOA', nav: 12.04, change: 0.25, month: 4.6, quarter: 5.1, year: 5.3 },
+    { name: 'Class B', symbol: 'LMNOB', nav: 12.14, change: 0.5, month: 4.6, quarter: 5.1, year: 5.3 }
   ],
   assets: [
     { name: 'Apple Inc', symbol: 'AAPL', percentage: 15.3, sector: 'informationTechnology' },

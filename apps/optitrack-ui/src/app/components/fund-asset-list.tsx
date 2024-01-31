@@ -26,7 +26,7 @@ interface IAssetsListCardProps {
 
 const AssetsListCard = (props: IAssetsListCardProps) => {
   const { asset, idx, selected, setSelected } = props
-  const from = moment().subtract(15, 'days').format('YYYY-MM-DD')
+  const from = moment().subtract(30, 'days').format('YYYY-MM-DD')
   const to = moment().format('YYYY-MM-DD')
   const sectorMeta = getSectorMetaByKey(asset.sector)
 
@@ -46,7 +46,7 @@ const AssetsListCard = (props: IAssetsListCardProps) => {
         <Flex className="w-auto">
           <Badge icon={ChartPieIcon} className="mr-8">{asset.percentage}% of total</Badge>
           <Icon icon={sectorMeta.Icon} variant="simple" tooltip={sectorMeta.name} color={sectorMeta.color as IconProps["color"]} size="xl" className="mr-8" />
-          {(data && !isLoading) ? (<SparkAreaChart data={data.results} categories={['c']} index="t" />) : (<Loading />)}
+          {(data && !isLoading) ? (<SparkAreaChart data={data.results} categories={['c']} index="t" connectNulls={true} />) : (<Loading />)}
         </Flex>
       </Flex>
     </Card>

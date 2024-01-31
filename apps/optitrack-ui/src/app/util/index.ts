@@ -39,19 +39,19 @@ export const getSectorMetaByName = (sector: string) => {
 }
 
 export const getDeltaType = (delta: number) => {
-  const moderateDelta = 0.5
-  const significantDelta = 1
+  const moderateDelta = 0.1
+  const significantDelta = 0.5
 
   switch (true) {
-    case delta < -significantDelta:
+    case delta <= -significantDelta:
       return 'decrease'
-    case delta < -moderateDelta:
+    case delta <= -moderateDelta:
       return 'moderateDecrease'
     case delta < moderateDelta:
-      return 'increase'
+      return 'unchanged' 
     case delta < significantDelta:
       return 'moderateIncrease'
     default:
-      return 'unchanged'
+      return 'increase'
   }
 }

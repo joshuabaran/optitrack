@@ -50,14 +50,12 @@ export function CandlestickChart(props: ICandlestickChartProps) {
 
     const mainPanel = stockChart.panels.push(am5stock.StockPanel.new(chartRoot, {
       height: am5.percent(70),
-      wheelY: 'zoomX',
       panX: true,
-      panY: true,
+      panY: false,
     }))
     mainPanel.panelControls.closeButton.set('forceHidden', true)
 
     const volumePanel = stockChart.panels.push(am5stock.StockPanel.new(chartRoot, {
-      wheelY: 'zoomX',
       panX: true,
       panY: false,
       height: am5.percent(30),
