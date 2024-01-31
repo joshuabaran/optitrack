@@ -1,4 +1,3 @@
-import { useEffect } from 'react'
 import { useQuery } from 'react-query'
 import moment from 'moment'
 import {
@@ -24,14 +23,10 @@ const AssestListCard = (props: IAssestListCardProps) => {
   const { asset, idx, selected, setSelected } = props
   const from = moment().subtract(15, 'days').format('YYYY-MM-DD')
   const to = moment().format('YYYY-MM-DD')
-  const { data, isLoading, error } = useQuery(`${asset.symbol}-spark`, () => getPolygonAggregates({ symbol: asset.symbol, multiplier: 1, timespan: 'day', from, to }))
-
-  useEffect(() => {
-    console.log('AssestListCard:', { data, isLoading, error })
-  }, [data, isLoading, error])
+  const { data, isLoading } = useQuery(`${asset.symbol}-spark`, () => getPolygonAggregates({ symbol: asset.symbol, multiplier: 1, timespan: 'day', from, to }))
 
   return (
-    <Card className="m-2 hover:cursor-pointer hover:border-orange-600" decoration="left" decorationColor={selected ? "green": "blue"} onClick={(evt) => {setSelected(idx)}}>
+    <Card className="m-1 hover:cursor-pointer hover:border-orange-600" decoration="left" decorationColor={selected ? "green": "blue"} onClick={(evt) => {setSelected(idx)}}>
       <Flex justifyContent="between" className="w-100">
         <Flex flexDirection="col" alignItems="start" className="w-auto">
           <Title>{asset.name}</Title>
@@ -60,13 +55,9 @@ export interface IFundAssetListProps {
 export const FundAssetList = (props: IFundAssetListProps) => {
   const { assets, selected, setSelected } = props
 
-  useEffect(() => {
-    console.log(`FundAssetList: selected=${selected}`)
-  }, [selected])
-
   return (
     <Card>
-      <Flex flexDirection="col" className="max-h-[740px] overflow-y-auto overflow-x-hidden p-10">
+      <Flex flexDirection="col" className="max-h-[548px] overflow-y-auto overflow-x-hidden p-4">
         {assets.map((asset, idx) => (
           <AssestListCard key={idx} asset={asset} idx={idx} selected={(idx === selected)} setSelected={setSelected} />
         ))}

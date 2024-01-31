@@ -1,4 +1,5 @@
 import { Col } from '@tremor/react'
+
 export const Loading = () => {
   return (
     <Col numColSpan={1} numColSpanSm={2} className="flex justify-center items-center">

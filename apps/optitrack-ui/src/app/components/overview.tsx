@@ -16,9 +16,10 @@ interface IOfferingCardProps {
 
 const OfferingCard = (props: IOfferingCardProps) => {
   const { offering } = props
+  const navFormatter = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD'})
 
   return (
-    <Card className="m-2" decoration="left">
+    <Card className="m-1" decoration="left">
       <Flex justifyContent="start">
         <Flex flexDirection="col" alignItems="start">
           <Title>{offering.name}</Title>
@@ -26,7 +27,7 @@ const OfferingCard = (props: IOfferingCardProps) => {
         </Flex>
         <Flex justifyContent="end">
           <Text>NAV</Text>
-          <Metric className="mx-2">{`$${offering.nav}`}</Metric>
+          <Metric className="mx-2">{navFormatter.format(offering.nav)}</Metric>
           {/* TODO: fix badge */}
           <BadgeDelta size="xs">{`${offering.change}%`}</BadgeDelta>
         </Flex>
@@ -44,7 +45,7 @@ interface IDistributionChartProps {
 const DistributionChart = (props: IDistributionChartProps) => {
   const { data, index, category } = props
   return (
-    <Card className="mt-2">
+    <Card className="mt-1">
       <Title>Distribution</Title>
       <DonutChart
         data={data}
@@ -52,7 +53,6 @@ const DistributionChart = (props: IDistributionChartProps) => {
         category={category}
         variant="pie"
         showLabel={false}
-        className="h-80"
       />
     </Card>
   )
@@ -64,17 +64,29 @@ export interface IOverviewProps {
 
 export const Overview = (props: IOverviewProps) => {
   const { fund } = props
+  const assetsFormatter = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', notation: 'compact', compactDisplay: 'short'})
 
   return (
     <Card>
-      <Metric className="mb-4">{fund?.name}</Metric>
-      <Text>{fund?.totalHoldings}</Text>
-      <Text>{fund?.turnOver}</Text>
-      <Text>{fund?.totalAssets}</Text>
-      <Flex flexDirection="col">
-        {fund?.offerings?.map((o, idx) => <OfferingCard key={idx} offering={o} />) || []}
+      <Flex flexDirection="col" alignItems="start">
+        <Metric className="mb-1">{fund?.name}</Metric>
+        <Flex justifyContent="start">
+          <Text>Total Holdings:&nbsp;</Text>
+          <Text>{fund?.totalHoldings}</Text>
+        </Flex>
+        <Flex justifyContent="start">
+          <Text>Turnover:&nbsp;</Text>
+          <Text>{fund?.turnOver}%</Text>
+        </Flex>
+        <Flex justifyContent="start">
+          <Text>Total Assets:&nbsp;</Text>
+          <Text>{assetsFormatter.format(fund?.totalAssets || 0)}</Text>
+        </Flex>
+        <Flex flexDirection="col">
+          {fund?.offerings?.map((o, idx) => <OfferingCard key={idx} offering={o} />) || []}
+        </Flex>
+        <DistributionChart data={fund?.assets || []} category="percentage" index="sector" />
       </Flex>
-      <DistributionChart data={fund?.assets || []} category="percentage" index="sector" />
     </Card>
   )
 }

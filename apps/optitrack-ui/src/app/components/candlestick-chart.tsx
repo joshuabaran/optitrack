@@ -9,6 +9,7 @@ import am5themes_Dark from '@amcharts/amcharts5/themes/Dark'
 
 import { getPolygonAggregates } from '../data'
 import { Loading } from './loading'
+import { usePrefersDarkMode } from '../hooks'
 
 export interface ICandlestickChartProps {
   selectedSymbol: string
@@ -20,22 +21,27 @@ export function CandlestickChart(props: ICandlestickChartProps) {
   const to = moment().format('YYYY-MM-DD')
   const timespan = 'day'
   const multiplier = 1
-  const { data, isLoading, error } = useQuery(`${selectedSymbol}-candlestick`, () => getPolygonAggregates({ symbol: selectedSymbol, multiplier, timespan, from, to }))
+
+  const { data, isLoading } = useQuery(`${selectedSymbol}-candlestick`, () => getPolygonAggregates({ symbol: selectedSymbol, multiplier, timespan, from, to }))
+  const dm = usePrefersDarkMode()
 
   useLayoutEffect(() => {
     const chartRoot = am5.Root.new('stock-chart')
     chartRoot.numberFormatter.set("numberFormat", "#,###.00")
 
-    const customTheme = am5.Theme.new(chartRoot)
-    customTheme.rule("Grid", ["scrollbar", "minor"]).setAll({
-      visible: false
-    })
+    // const customTheme = am5.Theme.new(chartRoot)
+    // customTheme.rule("Grid", ["scrollbar", "minor"]).setAll({
+    //   visible: false
+    // })
 
-    chartRoot.setThemes([
+    const themes: am5.Theme[] = [
       am5themes_Animated.new(chartRoot),
-      am5themes_Dark.new(chartRoot),
-      customTheme
-    ])
+      //customTheme
+    ]
+
+    dm && themes.push(am5themes_Dark.new(chartRoot))
+
+    chartRoot.setThemes(themes)
 
     const stockChart = chartRoot.container.children.push(
       am5stock.StockChart.new(chartRoot, {
@@ -173,14 +179,6 @@ export function CandlestickChart(props: ICandlestickChartProps) {
       snapToSeriesBy: "y!"
     }))
 
-    // const volumeCursor = volumePanel.set("cursor", am5xy.XYCursor.new(chartRoot, {
-    //   yAxis: volumeValueAxis,
-    //   xAxis: volumeDateAxis,
-    //   snapToSeries: [volumeSeries],
-    //   snapToSeriesBy: "y!"
-    // }));
-    // volumeCursor.lineX.set("forceHidden", true)
-
     const scrollbar = mainPanel.set("scrollbarX", am5xy.XYChartScrollbar.new(chartRoot, {
       orientation: "horizontal",
       height: 50
@@ -210,7 +208,7 @@ export function CandlestickChart(props: ICandlestickChartProps) {
     
     sbSeries.fills.template.setAll({
       visible: true,
-      fillOpacity: 0.3
+      fillOpacity: 0.2
     })
 
     sbSeries.data.setAll(data?.results || [])

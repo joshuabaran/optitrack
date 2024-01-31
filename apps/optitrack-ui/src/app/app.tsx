@@ -1,6 +1,6 @@
 import { QueryClient, QueryClientProvider } from 'react-query'
 
-import { Header } from './components/header'
+import { Header } from './components'
 import { Dashboard } from './pages/dashboard'
 
 export function App() {
